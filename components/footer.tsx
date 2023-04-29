@@ -10,7 +10,7 @@ const Footer = ({darkTheme, toggleDark}:FooterProps) => {
   return (
     <div>
       <footer
-        className={classnames("bg-purple-200 w-full pt-6 flex items-center justify-between flex-wrap mt-6", {'bg-[#252525]' : darkTheme})}
+        className={classnames("bg-dark-gray w-full pt-6 flex items-center justify-between flex-wrap mt-6", {'bg-dark-blue':darkTheme})}
       >
         <div className="text-center m-auto">
           <h4

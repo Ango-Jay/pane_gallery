@@ -26,7 +26,7 @@ const NewsLetter = ({darkTheme}:{darkTheme:boolean}) => {
  
   return (
     <div
-      className={classnames("text-center max-w-sm m-auto bg-purple-200 rounded overflow-hidden m-16 py-8 px-4", {'bg-[#252525]' : darkTheme})}
+      className={classnames("text-center max-w-sm m-auto bg-dark-gray rounded overflow-hidden m-16 py-8 px-4", {'bg-dark-blue' : darkTheme})}
     >
       <span
         className={classnames("text-3xl text-black-500 font-semibold", {'text-white' : darkTheme})}

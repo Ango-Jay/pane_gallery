@@ -18,7 +18,7 @@ image
     return(
         <>
          <div
-      className={classnames("max-w-sm rounded-3xl overflow-hidden shadow-lg my-3 bg-purple-200", {'bg-[#252525]' : darkTheme})}
+      className={classnames("max-w-sm rounded-3xl overflow-hidden shadow-lg my-3 bg-dark-gray", {'bg-dark-blue' : darkTheme})}
     >
       <img
         src={image.previewURL}
@@ -26,11 +26,11 @@ image
         className="w-full h-[320px] max-h-[320px]"
       />
       <div className="px-6 py-4">
-        <div className="font-bold text-purple-500 text-2xl mb-2">
+        <div className="font-bold text-white text-2xl mb-2">
           Photo by {image.user}
         </div>
         <ul
-          className={classnames("text-base text-gray-700", {'text-white' : darkTheme})}
+          className={classnames("text-base text-white", {'text-white' : darkTheme})}
         >
           <li>
             <strong className="ml-1">Views: </strong>

@@ -36,7 +36,7 @@ handleFetch()
       }, [searchText]
     )
     return (
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-6 sm:px-10">
         <SearchBar
 setSearchTerm={setSearchText}
 darkTheme={darkTheme}

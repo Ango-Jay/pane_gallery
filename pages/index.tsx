@@ -22,7 +22,7 @@ export default function Home({
   }
   return (
     <main
-      className={classnames(`flex flex-col bg-white`, {'bg-[#404040]' : darkTheme})}
+      className={classnames(`flex flex-col bg-light`, {'bg-dark-gray' : darkTheme})}
     >
       <Navbar darkTheme={darkTheme} />
       <Gallery darkTheme={darkTheme} initialImages={initialImages} />
