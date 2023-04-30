@@ -8,28 +8,24 @@ export default async function handler(
 ) {
   const params = req.body;
 
-  const results = await GetImages(params);
-  
-  res.status(200).json({
+try {
+  const response = await GetImages(params);
+  if (response.status >= 400) {
+    return res.status(400).json({
+      error: `Sorry an error occured`,
+    });
+  }
+  const results = response.data
+ return res.status(200).json({
     ...results,
   });
 
+} catch (error) {
+  if(error instanceof Error) {
+    return res.status(500).json({ error: error.message });
+        }
+        return (error as {}).toString()
+}
 }
 
 
-
-// const getArticle: NextApiHandler<GetResponse> = async (req, res) => {
-//   const { id } = req.query;
-//   if (id) {
-//     // find and return article with given id
-//     const article = BLOG_DB.find((article) => article.id === Number(id));
-
-//     if (!article)
-//       throw new createHttpError.NotFound(`Article with id ${id} not found!`);
-//     // OR
-//     // if (!article) throw new createHttpError[404](`Article with id ${id} not found!`)
-//     res.status(200).json({ data: article });
-//   } else {
-//     res.status(200).json({ data: BLOG_DB });
-//   }
-// };

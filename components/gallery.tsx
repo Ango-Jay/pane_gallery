@@ -93,7 +93,7 @@ darkTheme={darkTheme}
               No images found
             </h1>
           )}
-          <div className="w-full grid sm:grid-cols-1 sm:gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3 lg:gap-1 pb-8 mt-[3rem]">
+          <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-1  pb-8 mt-[3rem]">
             {
          displayImages()
             }

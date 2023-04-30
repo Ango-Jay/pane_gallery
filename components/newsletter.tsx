@@ -2,26 +2,47 @@ import axios from "axios";
 import  { useState} from "react";
 import type {FormEvent} from "react"
 import classnames from "classnames"
-
-
-
+import * as yup from "yup"
+import { ValidationError } from "yup";
+import { Spinner } from "./Loaders/Spinner";
 
 const NewsLetter = ({darkTheme}:{darkTheme:boolean}) => {
-  let [email,setEmail]= useState("");
-  const onSubmit = (e:FormEvent<HTMLFormElement>) => {
+  const [email, setEmail]= useState("");
+  const [isLoading, setIsLoading] = useState(false)
+ const [error, setError] = useState<ValidationError | Error | null>(null)
+  const validationScema = yup.object().shape({
+    email: yup
+    .string()
+    .email("Please enter a valid email")
+    .required("Please enter your email address")
+  })
+  const onSubmit = async(e:FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    fetch("https://star-gallery.herokuapp.com/api/addEmail",{
-      method:'POST',
-      mode:'cors',
-      cache : 'no-cache',
-      credentials: 'same-origin',
-      headers:{
-        'Content-Type':'application/json'
-      },
-            redirect:'follow',
-      referrerPolicy:'no-referrer',
-      body:JSON.stringify({email:email})
-    }).then((res) => res.json());
+    try {
+const isValid = await validationScema.validate(
+  {
+    email
+  }
+)
+if(isValid){
+setError(null)
+    setIsLoading(true)
+   await axios.post("api/subscribe", {
+      email
+     })
+  setIsLoading(false)
+    
+}
+} catch (error) {
+  console.log(error);
+  if(error instanceof ValidationError){
+setError(error)
+  }
+  if(error instanceof Error){
+    setError(error)
+      }
+  setIsLoading(false)
+}
   };
  
   return (
@@ -50,11 +71,24 @@ const NewsLetter = ({darkTheme}:{darkTheme:boolean}) => {
             className="appearance-none bg-white w-full rounded-full text-dark p-3  focus:outline-darkblue"
  
           />
+        {
+          error ? (
+            <div className="mt-1 text-red-500 text-sm">
+            {error?.message}
+          </div>
+          )
+          : ""
+        }
         </div>
         <button
-          className="flex-shrink-0 min-w-[100px] bg-dark-blue text-sm text-white p-3 rounded-full shadow-sm btn-style"
+          className="flex justify-center items-center flex-shrink-0 min-w-[100px] bg-dark-blue text-sm text-white p-3 rounded-full shadow-sm btn-style"
           type="submit"
         >
+         {
+          isLoading ? (
+            <Spinner className="text-light mr-2"/>
+          ) : ""
+         }
           Notify me
         </button>
       </form>

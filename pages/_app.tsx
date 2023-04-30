@@ -2,10 +2,12 @@ import MetaInfo from '@/components/MetaInfo'
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import { motion, AnimatePresence } from 'framer-motion'
+import ErrorBoundary from '@/components/ErrorBoundary'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
+    <ErrorBoundary>
     <AnimatePresence mode="wait">
       <motion.div
       initial="initialState"
@@ -32,6 +34,7 @@ clipPath:"polygon(0 0, 100% 0, 100% 100%, 0 100%)"
     <Component {...pageProps} />
     </motion.div>
     </AnimatePresence>
+    </ErrorBoundary>
     </>
   )
 }

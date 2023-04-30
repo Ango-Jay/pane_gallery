@@ -21,7 +21,7 @@ const MetaInfo = ({ title, keywords, description }: MetaInfoProps) => {
 };
 
 MetaInfo.defaultProps = {
-  title: "Pane Gallery",
+  title: "Pane Gallery - View over a thousand images",
   keywords: "pane gallery pixabay images",
   description: "Gallery built with pixabay api",
 };

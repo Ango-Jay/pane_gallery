@@ -12,7 +12,8 @@ const Footer = ({darkTheme, toggleDark}:FooterProps) => {
     const currentYear: number = new Date().getFullYear();
     return currentYear;
   };
-  return (
+
+    return (
     <div>
       <footer
         className={classnames("bg-dark-gray py-[3rem] w-full flex items-center justify-between mt-[3rem]", {'bg-dark-blue':darkTheme})}

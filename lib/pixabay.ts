@@ -22,5 +22,5 @@ export const GetImages = async (params?: {
       },
     }
   );
-  return result.data;
+  return result
 };

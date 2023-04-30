@@ -49,7 +49,7 @@ export default function Home({
 
 export async function getServerSideProps() {
   const result = await GetImages();
-  const initialImages = result.hits;
+  const initialImages = result.data.hits;
   return {
     props: {
       initialImages,
