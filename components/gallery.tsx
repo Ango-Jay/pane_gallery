@@ -5,6 +5,7 @@ import {SearchBar }from "./searchbar";
 import { Image } from "@/interfaces";
 import axios from "axios"
 import classNames from "classnames";
+import { Skeleton } from "./Loaders/Skeleton";
 
 
 
@@ -26,13 +27,18 @@ const Gallery = ({
 }:GalleryProps)=>{
     const [searchText, setSearchText] = useState("")
     const [images, setImages] = useState(initialImages)
+    const [isLoading, setIsLoading] = useState(false)
+
     const handleFetch = async()=>{
       try {
+        setIsLoading(true)
     const res =  await axios.post("api/images", {
     searchTerm:searchText
     }) 
+    setIsLoading(false)
 setImages(res.data?.hits)
       } catch (error) {
+        setIsLoading(false)
         console.log("ERR");
         console.log(error);
         
@@ -45,6 +51,35 @@ handleFetch()
         }
       }, [searchText]
     )
+
+    const displayImages = ()=>{
+      if(images && !isLoading){
+        return images.map((image, index) => (
+          <Card
+           key={`${image.id}`} 
+           image={image}
+           index={index}
+            darkTheme={darkTheme}
+            showImageModal={showImageModal}
+            setShowImageModal={setShowImageModal}
+            activeImage={activeImage}
+            handleSelect={handleSelect}
+           className={classNames({'row-span-2 max-h-none h-[100%] min-h-full': ["1", "6", "11", "16", "21", "26"].includes(`${index}`) })}/>
+        ))
+      }
+      return (
+        Array.from(Array(30).keys()).map(
+          (item, index)=>(
+            <Skeleton
+             key={index} 
+            isLoading={isLoading}
+            className={classNames({'row-span-2 max-h-none h-[100%] min-h-full': ["1", "6", "11", "16", "21", "26"].includes(`${index}`) })}
+            />
+          )
+        )
+      )
+    }
+
     return (
         <div className="container mx-auto px-6 sm:px-10 mt-[3rem]">
         <SearchBar
@@ -58,18 +93,10 @@ darkTheme={darkTheme}
               No images found
             </h1>
           )}
-          <div className="w-full grid sm:grid-cols-1 sm:gap-6s md:grid-cols-2 md:gap-8 lg:grid-cols-3 lg:gap-1 pb-8 mt-[3rem]">
-            {images.map((image, index) => (
-              <Card
-               key={`${image.id}`} 
-               image={image}
-                darkTheme={darkTheme}
-                showImageModal={showImageModal}
-                setShowImageModal={setShowImageModal}
-                activeImage={activeImage}
-                handleSelect={handleSelect}
-               className={classNames(`${index}`, {'row-span-2 max-h-none': ["1", "6", "11", "16", "21", "26"].includes(`${index}`) })}/>
-            ))}
+          <div className="w-full grid sm:grid-cols-1 sm:gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3 lg:gap-1 pb-8 mt-[3rem]">
+            {
+         displayImages()
+            }
           </div>
         </div>
       </div>

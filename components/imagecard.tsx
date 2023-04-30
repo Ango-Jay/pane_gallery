@@ -12,7 +12,8 @@ interface CardProps {
     showImageModal:boolean;
     setShowImageModal: Dispatch<SetStateAction<boolean>>;
     activeImage:string;
-    handleSelect:(image:Image)=>void
+    handleSelect:(image:Image)=>void;
+    index:number
 }
 export const Card = (
     {
@@ -22,7 +23,8 @@ className,
 showImageModal,
 setShowImageModal,
 activeImage,
-handleSelect
+handleSelect,
+index
     }: CardProps
 )=>{
 
@@ -32,13 +34,14 @@ handleSelect
     return(
         <>
          <div
-      className={classnames("relative w-full cursor-pointer overflow-hidden max-h-[473px] shadow-lg my-3 lg:my-0  transition-all duration-300 hover:scale-[1.05] hover:z-[5] hover:max-h-none group", {'bg-dark-blue' : darkTheme}, className)}
+      className={classnames("relative w-full cursor-pointer overflow-hidden h-[282px] max-h-[473px] shadow-lg my-3 lg:my-0  transition-all duration-300 hover:scale-[1.05] hover:z-[5] hover:max-h-none group", {'bg-dark-blue' : darkTheme}, className)}
    onClick={()=>handleSelect(image)}
    >
       <img
         src={image.webformatURL}
         alt={image.tags}
-        className="w-full min-h-full  object-cover"
+        loading={index < 5 ? "eager" : "lazy"}
+        className="w-full min-h-full object-cover"
       />
       {/* <div className="translate-y-[100%] group-hover:translate-y-0 group-hover:opacity-100 opacity-0 px-6 py-4 transition-all duration-300">
         <div className="font-bold text-white text-2xl mb-2">
