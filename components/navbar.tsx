@@ -1,10 +1,18 @@
 import classNames from "classnames";
+import {motion} from "framer-motion"
+
+
 
 const Navbar = ({ darkTheme }: { darkTheme: boolean }) => {
   return (
-    <div
+    <motion.div
+    initial={{y:25, opacity:0}}
+    animate={{y:0, opacity:1}}
+    transition={{
+      duration:0.75
+    }}
     className={classNames(
-      "flex items-center justify-between flex-wrap bg-dark-gray p-6",
+      "sticky top-0 z-[100] flex items-center justify-between flex-wrap bg-dark-gray py-5",
       { "bg-dark-blue": darkTheme }
     )} 
   >
@@ -28,7 +36,7 @@ const Navbar = ({ darkTheme }: { darkTheme: boolean }) => {
       </button>
         </div>
       </nav>
-    </div>
+    </motion.div>
   );
 };
 

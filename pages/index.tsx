@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import Gallery from "@/components/gallery";
-import NewsLetter from "@/components/newsletter";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { GetImages } from '@/lib/pixabay';
@@ -20,13 +19,27 @@ export default function Home({
   const toggleDark = ()=>{
     setDarkTheme(!darkTheme)
   }
+  const [showImageModal, setShowImageModal] = useState(false)
+  const [active, setActive] = useState("")
+  const handleSelect = (image:Image)=>{
+    setActive(image.largeImageURL)
+    setShowImageModal(true)
+  }
   return (
     <main
-      className={classnames(`flex flex-col bg-light`, {'bg-dark-gray' : darkTheme})}
+      className={classnames(`flex flex-col bg-light`, {'bg-dark-gray' : darkTheme}, {'overflow-hidden h-[100vh]' : showImageModal})}
     >
-      <Navbar darkTheme={darkTheme} />
-      <Gallery darkTheme={darkTheme} initialImages={initialImages} />
-      <NewsLetter darkTheme={darkTheme} />
+      <Navbar 
+      darkTheme={darkTheme} />
+      <Gallery 
+      darkTheme={darkTheme} 
+      initialImages={initialImages} 
+      showImageModal={showImageModal} 
+      setShowImageModal={setShowImageModal}
+      activeImage={active}
+      handleSelect={handleSelect}
+      />
+
       <Footer darkTheme={darkTheme} toggleDark={toggleDark} />
     </main>
 

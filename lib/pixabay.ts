@@ -16,7 +16,7 @@ export const GetImages = async (params?: {
       params : {
         key: pixabayAPIKey,
         page: params?.page || 1,
-        per_page: params?.pageSize || 20,
+        per_page: params?.pageSize || 30,
         image_type: "photo",
         q: params?.searchTerm,
       },
