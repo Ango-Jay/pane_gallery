@@ -26,19 +26,20 @@ const NewsLetter = ({darkTheme}:{darkTheme:boolean}) => {
  
   return (
     <div
-      className={classnames("text-center bg-dark-gray rounded overflow-hidden mt-[3rem] py-8 px-4", {'bg-dark-blue' : darkTheme})}
+      className={classnames("overflow-hidden", {'bg-dark-blue' : darkTheme})}
     >
-      <span
-        className={classnames("text-3xl text-black-500 font-semibold", {'text-white' : darkTheme})}
+      <p
+      className="text-light"
       >
-        Want to be updated when new awesome pics come out?
-      </span>
-      <span className="text-3xl text-purple-500 font-semibold">
-        {" "}
-        Sign up for our newsLetter.
-      </span>
-      <form onSubmit={onSubmit} className="w-full max-w-sm">
-        <div className="w-full my-4 mx-2">
+      Want to be updated when new awesome pics come out? 
+      </p>
+      <p
+      className="text-light"
+      >
+  Sign up for our newsLetter.
+      </p>
+      <form onSubmit={onSubmit} className="w-full flex flex-col items-center">
+        <div className="w-full my-4  rounded-full relative">
           <input
             onChange={e => {
               setEmail(e.target.value);
@@ -46,12 +47,12 @@ const NewsLetter = ({darkTheme}:{darkTheme:boolean}) => {
             value={email}
             type="text"
             placeholder="Enter email"
-            className="  text-gray-700  rounded px-2 py-2"
+            className="appearance-none bg-white w-full rounded-full text-dark p-3  focus:outline-darkblue"
  
           />
         </div>
         <button
-          className="flex-shrink-0 bg-purple-500 hover:bg-purple-700 border-purple-500 hover:border-purple-700 text-sm border-4 text-white py-1 px-2 rounded shadow-lg"
+          className="flex-shrink-0 min-w-[100px] bg-dark-blue text-sm text-white p-3 rounded-full shadow-sm btn-style"
           type="submit"
         >
           Notify me

@@ -1,4 +1,5 @@
 import classnames from "classnames"
+import NewsLetter from "./newsletter";
 
 
 interface FooterProps {
@@ -7,19 +8,56 @@ interface FooterProps {
 }
 
 const Footer = ({darkTheme, toggleDark}:FooterProps) => {
+  const getYear = (): number => {
+    const currentYear: number = new Date().getFullYear();
+    return currentYear;
+  };
   return (
     <div>
       <footer
-        className={classnames("bg-dark-gray w-full pt-6 flex items-center justify-between flex-wrap mt-6", {'bg-dark-blue':darkTheme})}
+        className={classnames("bg-dark-gray py-[3rem] w-full flex items-center justify-between mt-[3rem]", {'bg-dark-blue':darkTheme})}
       >
-        <div className="text-center m-auto">
-          <h4
-            className={classnames("text-gray hover:text-white text-xl my-4", {'text-white' : darkTheme})}
-          >
-            made by AngoJay.
-          </h4>
-          <div className="flex flex-row-reverse items-center">
-            <div
+        <div
+            className="container mx-auto px-6 sm:px-10"
+        >
+            <div className="w-full grid grid-cols-2">
+            <div>
+            <a href="#" className="font-bold text-xl text-dark-blue uppercase h-[36px] flex items-center relative pl-[5.1rem]">
+
+<div className="absolute top-[50%] translate-y-[-50%] left-0 w-[5rem] h-[5rem] pt-1 flex">
+<img src="/assets/icons/logo.svg" alt="pane gallery" />
+
+</div>
+pane gallery
+</a>
+<p className="mt-8 pl-2 text-sm text-light">
+  Made with <a className="inline" href="https://pixabay.com/"  target="_blank">Pixabay</a> api
+</p>
+            </div>
+
+            <div className="text-light flex flex-col items-end">
+<NewsLetter darkTheme={darkTheme} />
+            </div>
+            </div>
+            <div className="flex flex-row-reverse items-center justify-center mt-8">
+      <h4
+      className="text-light text-sm"
+      >
+      &copy; {getYear()} Designed and Developed by AngoJay.
+      </h4>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default Footer;
+
+
+// dark mode
+/* 
+ <div
               className={`w-14 h-8 flex items-center bg-gray-100 rounded-full p-1 duration-300 cursor-pointer ${
                 darkTheme ? "bg-purple-500" : ""
               }`}
@@ -37,11 +75,4 @@ const Footer = ({darkTheme, toggleDark}:FooterProps) => {
             >
               Dark mode:{" "}
             </p>
-          </div>
-        </div>
-      </footer>
-    </div>
-  );
-};
-
-export default Footer;
+*/

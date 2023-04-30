@@ -32,7 +32,7 @@ handleSelect
     return(
         <>
          <div
-      className={classnames("relative w-full cursor-pointer  max-h-[473px] overflow-hidden shadow-lg my-3 lg:my-0  transition-all duration-300 group", {'bg-dark-blue' : darkTheme}, className)}
+      className={classnames("relative w-full cursor-pointer overflow-hidden max-h-[473px] shadow-lg my-3 lg:my-0  transition-all duration-300 hover:scale-[1.05] hover:z-[5] hover:max-h-none group", {'bg-dark-blue' : darkTheme}, className)}
    onClick={()=>handleSelect(image)}
    >
       <img

@@ -46,7 +46,7 @@ handleFetch()
       }, [searchText]
     )
     return (
-        <div className="container mx-auto px-6 sm:px-10">
+        <div className="container mx-auto px-6 sm:px-10 mt-[3rem]">
         <SearchBar
 setSearchTerm={setSearchText}
 darkTheme={darkTheme}
@@ -58,7 +58,7 @@ darkTheme={darkTheme}
               No images found
             </h1>
           )}
-          <div className="w-full grid sm:grid-cols-1 sm:gap-6s md:grid-cols-2 md:gap-8 lg:grid-cols-3 lg:gap-1 pb-8">
+          <div className="w-full grid sm:grid-cols-1 sm:gap-6s md:grid-cols-2 md:gap-8 lg:grid-cols-3 lg:gap-1 pb-8 mt-[3rem]">
             {images.map((image, index) => (
               <Card
                key={`${image.id}`} 

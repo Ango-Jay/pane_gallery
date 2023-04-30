@@ -24,7 +24,7 @@ export const SearchBar = ({ darkTheme, setSearchTerm }: SearchBarProps) => {
   }, []);
   return (
     <>
-      <div className="max-w-sm lg:max-w-[500px] rounded overflow-hidden my-10 mx-auto">
+      <div className="max-w-sm lg:max-w-[500px] rounded overflow-hidden mx-auto">
         <div className="flex items-center pl-6 border border-dark-gray rounded-full relative focus:outline-dark-blue">
           <div className="absolute top-[50%] translate-y-[-50%] left-2 w-[16px] h-[16px]">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="w-full h-full fill-dark-gray">

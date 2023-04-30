@@ -19,7 +19,7 @@ const Navbar = ({ darkTheme }: { darkTheme: boolean }) => {
       <nav
     className="container mx-auto px-6 sm:px-10"
       >
-        <div className="flex items-center flex-col sm:flex-row flex-shrink-0 text-white mr-6">
+        <div className="flex items-center flex-col sm:flex-row flex-shrink-0 text-white">
           <a href="#" className="font-bold text-xl text-dark-blue uppercase h-[36px] flex items-center relative pl-[5.1rem]">
 
               <div className="absolute top-[50%] translate-y-[-50%] left-0 w-[5rem] h-[5rem] pt-1 flex">
