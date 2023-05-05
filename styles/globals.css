@@ -11,9 +11,8 @@
   }
 }
 
-
 @layer base {
-  body{
+  body {
     background-color: white;
   }
 }

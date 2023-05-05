@@ -3,17 +3,15 @@ import axios from "axios";
 
 const pixabayAPIKey = process.env.PIXABAY_API_KEY;
 
-
 export const GetImages = async (params?: {
   searchTerm?: string;
   page: number;
   pageSize: number;
 }) => {
-  
   const result = await axios.get<ImagesDataResponse>(
     `https://pixabay.com/api/`,
     {
-      params : {
+      params: {
         key: pixabayAPIKey,
         page: params?.page || 1,
         per_page: params?.pageSize || 30,
@@ -22,5 +20,5 @@ export const GetImages = async (params?: {
       },
     }
   );
-  return result
+  return result;
 };

@@ -1,7 +1,6 @@
 import classNames from "classnames";
 
-
-export const Spinner = ({ className }:{className?:string}) => {
+export const Spinner = ({ className }: { className?: string }) => {
   return (
     <svg
       className={classNames("animate-spin h-5 w-5 text-white", className)}

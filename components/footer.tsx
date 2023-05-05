@@ -1,51 +1,58 @@
-import classnames from "classnames"
+import classnames from "classnames";
 import NewsLetter from "./newsletter";
 
-
 interface FooterProps {
-    darkTheme:boolean;
-    toggleDark: ()=>void
+  darkTheme: boolean;
+  toggleDark: () => void;
 }
 
-const Footer = ({darkTheme, toggleDark}:FooterProps) => {
+const Footer = ({ darkTheme, toggleDark }: FooterProps) => {
   const getYear = (): number => {
     const currentYear: number = new Date().getFullYear();
     return currentYear;
   };
 
-    return (
+  return (
     <div>
       <footer
-        className={classnames("bg-dark-gray py-[3rem] w-full flex items-center justify-between mt-[3rem]", {'bg-dark-blue':darkTheme})}
+        className={classnames(
+          "bg-dark-gray py-[3rem] w-full flex items-center justify-between mt-[3rem]",
+          { "bg-dark-blue": darkTheme }
+        )}
       >
-        <div
-            className="container mx-auto px-6 sm:px-10"
-        >
-            <div className="w-full grid grid-cols-2">
+        <div className="container mx-auto px-6 sm:px-10">
+          <div className="w-full grid grid-cols-2">
             <div>
-            <a href="#" className="font-bold text-xl text-dark-blue uppercase h-[36px] flex items-center relative pl-[5.1rem]">
-
-<div className="absolute top-[50%] translate-y-[-50%] left-0 w-[5rem] h-[5rem] pt-1 flex">
-<img src="/assets/icons/logo.svg" alt="pane gallery" />
-
-</div>
-pane gallery
-</a>
-<p className="mt-8 pl-2 text-sm text-light">
-  Made with <a className="inline" href="https://pixabay.com/"  target="_blank">Pixabay</a> api
-</p>
+              <a
+                href="#"
+                className="font-bold text-xl text-dark-blue uppercase h-[36px] flex items-center relative pl-[5.1rem]"
+              >
+                <div className="absolute top-[50%] translate-y-[-50%] left-0 w-[5rem] h-[5rem] pt-1 flex">
+                  <img src="/assets/icons/logo.svg" alt="pane gallery" />
+                </div>
+                pane gallery
+              </a>
+              <p className="mt-8 pl-2 text-sm text-light">
+                Made with{" "}
+                <a
+                  className="inline"
+                  href="https://pixabay.com/"
+                  target="_blank"
+                >
+                  Pixabay
+                </a>{" "}
+                api
+              </p>
             </div>
 
             <div className="text-light flex flex-col items-end">
-<NewsLetter darkTheme={darkTheme} />
+              <NewsLetter darkTheme={darkTheme} />
             </div>
-            </div>
-            <div className="flex flex-row-reverse items-center justify-center mt-8">
-      <h4
-      className="text-light text-sm"
-      >
-      &copy; {getYear()} Designed and Developed by AngoJay.
-      </h4>
+          </div>
+          <div className="flex flex-row-reverse items-center justify-center mt-8">
+            <h4 className="text-light text-sm">
+              &copy; {getYear()} Designed and Developed by AngoJay.
+            </h4>
           </div>
         </div>
       </footer>
@@ -54,7 +61,6 @@ pane gallery
 };
 
 export default Footer;
-
 
 // dark mode
 /* 
