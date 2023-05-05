@@ -6,7 +6,7 @@ import { Image } from "@/interfaces";
 import axios from "axios"
 import classNames from "classnames";
 import { Skeleton } from "./Loaders/Skeleton";
-
+import { ImageViewer } from "./imageviewer";
 
 
 interface GalleryProps {
@@ -14,19 +14,24 @@ interface GalleryProps {
     initialImages:Image[];
     showImageModal:boolean;
     setShowImageModal: Dispatch<SetStateAction<boolean>>;
-    activeImage:string;
-    handleSelect:(image:Image)=>void
 }
 const Gallery = ({
     darkTheme,
     initialImages,
     showImageModal,
     setShowImageModal,
-    activeImage,
-    handleSelect
 }:GalleryProps)=>{
     const [searchText, setSearchText] = useState("")
     const [images, setImages] = useState(initialImages)
+    const [activeImage, setActiveImage] = useState<{src:string, id:string, index:number} | null>(null)
+    const handleSelect =(image:Image, index:number)=>{
+      setActiveImage({
+        src:image.largeImageURL,
+        id:`${image.id}`,
+        index
+      })
+      setShowImageModal(true)
+    }
     const [isLoading, setIsLoading] = useState(false)
 
     const handleFetch = async()=>{
@@ -60,9 +65,6 @@ handleFetch()
            image={image}
            index={index}
             darkTheme={darkTheme}
-            showImageModal={showImageModal}
-            setShowImageModal={setShowImageModal}
-            activeImage={activeImage}
             handleSelect={handleSelect}
            className={classNames({'row-span-2 max-h-none h-[100%] min-h-full': ["1", "6", "11", "16", "21", "26"].includes(`${index}`) })}/>
         ))
@@ -99,7 +101,23 @@ darkTheme={darkTheme}
             }
           </div>
         </div>
+        {
+      showImageModal && activeImage  ? (
+<ImageViewer
+active={activeImage}
+setActive={setActiveImage}
+closeModal={()=>{
+  setActiveImage(null)
+  setShowImageModal(false)
+}}
+images={images}
+
+/>
+      )
+      : ""
+    }
       </div>
+      
     )
 }
 

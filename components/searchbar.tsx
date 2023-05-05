@@ -14,7 +14,7 @@ export const SearchBar = ({ darkTheme, setSearchTerm }: SearchBarProps) => {
   };
 
   const debounceRequest = useMemo(() => {
-    return debounce(handleChange, 300);
+    return debounce(handleChange, 1000);
   }, []);
 
   useEffect(() => {

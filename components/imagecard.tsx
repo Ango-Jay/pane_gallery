@@ -1,8 +1,6 @@
 import { Image } from "@/interfaces";
 import classnames from "classnames"
 import { useEffect, useState } from "react";
-import type {Dispatch, SetStateAction} from "react"
-import { ImageModal } from "./imagemodal";
 import axios from "axios";
 import { useInView } from 'react-intersection-observer';
 
@@ -10,20 +8,14 @@ interface CardProps {
     darkTheme:boolean;
     image:Image;
     className:string;
-    showImageModal:boolean;
-    setShowImageModal: Dispatch<SetStateAction<boolean>>;
-    activeImage:string;
-    handleSelect:(image:Image)=>void;
-    index:number
+    handleSelect:(image:Image, index:number)=>void;
+    index:number;
 }
 export const Card = (
     {
 darkTheme,
 image,
 className,
-showImageModal,
-setShowImageModal,
-activeImage,
 handleSelect,
 index
     }: CardProps
@@ -55,7 +47,7 @@ useEffect(
  if(inView && !fetched){
   handleFetchImage()
  }
-  },[inView]
+  },[inView, image.webformatURL]
 )
 
     return(
@@ -63,7 +55,7 @@ useEffect(
          <div
          ref={ref}
       className={classnames("relative w-full cursor-pointer overflow-hidden h-[282px] max-h-[473px] shadow-lg  transition-all duration-300 sm:hover:scale-[1.05] sm:hover:z-[5] sm:hover:max-h-none group", {'bg-dark-blue' : darkTheme}, className)}
-   onClick={()=>handleSelect(image)}
+   onClick={()=>handleSelect(image, index)}
    >
       <img
         src={imgSrc}
@@ -107,15 +99,7 @@ useEffect(
       </div>
     </div>
 
-    {
-      showImageModal && activeImage === image.largeImageURL ? (
-<ImageModal 
-active={activeImage}
-closeModal={()=>setShowImageModal(false)}
-/>
-      )
-      : ""
-    }
+
         </>
     )
 }

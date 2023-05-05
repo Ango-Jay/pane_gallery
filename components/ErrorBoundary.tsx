@@ -27,7 +27,7 @@ class ErrorBoundary extends Component<Props, IErrorState> {
     if (this.state.hasError) {
       return (
         <div className="bg-[#000]/30 w-full h-full min-h-[100vh] flex items-center justify-center">
-    <div className="bg-white rounded-xl max-w-[90%] sm:max-w-[600px] max-h-[50vh] sm:max-h-[600px] m-auto">
+    <div className="bg-white rounded-xl max-w-[90%] sm:max-w-[600px] max-h-[50vh] sm:max-h-[600px]  p-4 m-auto">
   <div className="flex items-center justify-center">
     <h1
     className="text-3xl text-dark-blue"

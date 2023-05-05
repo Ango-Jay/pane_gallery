@@ -20,11 +20,6 @@ export default function Home({
     setDarkTheme(!darkTheme)
   }
   const [showImageModal, setShowImageModal] = useState(false)
-  const [active, setActive] = useState("")
-  const handleSelect = (image:Image)=>{
-    setActive(image.largeImageURL)
-    setShowImageModal(true)
-  }
   return (
     <main
       className={classnames(`flex flex-col bg-light`, {'bg-dark-gray' : darkTheme}, {'overflow-hidden h-[100vh]' : showImageModal})}
@@ -36,8 +31,6 @@ export default function Home({
       initialImages={initialImages} 
       showImageModal={showImageModal} 
       setShowImageModal={setShowImageModal}
-      activeImage={active}
-      handleSelect={handleSelect}
       />
 
       <Footer darkTheme={darkTheme} toggleDark={toggleDark} />
@@ -48,6 +41,7 @@ export default function Home({
 
 
 export async function getServerSideProps() {
+try {
   const result = await GetImages();
   const initialImages = result.data.hits;
   return {
@@ -55,4 +49,8 @@ export async function getServerSideProps() {
       initialImages,
     },
   };
+} catch (error) {
+  console.log(error);
+  
+}
 }
