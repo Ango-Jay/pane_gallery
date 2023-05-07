@@ -21,7 +21,7 @@ const Footer = ({ darkTheme, toggleDark }: FooterProps) => {
         )}
       >
         <div className="container mx-auto px-6 sm:px-10">
-          <div className="w-full grid grid-cols-2">
+          <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-y-8 sm:gap-0">
             <div>
               <a
                 href="#"

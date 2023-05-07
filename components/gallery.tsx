@@ -36,17 +36,27 @@ const Gallery = ({
     setShowImageModal(true);
   };
   const [isLoading, setIsLoading] = useState(false);
-
+  const [imagesError, setImagesError] = useState<Error | null>(null)
+ const [page, setPage] = useState(1)
   const handleFetch = async () => {
     try {
       setIsLoading(true);
+      setImagesError(null)
       const res = await axios.post("api/images", {
         searchTerm: searchText,
+        page
       });
       setIsLoading(false);
-      setImages(res.data?.hits);
+      // setImages(res.data?.hits);
+
+      setImages(prevItems => [...prevItems, ...res.data?.hits]);
+      setPage(prevPage => prevPage + 1);
+
     } catch (error) {
       setIsLoading(false);
+     if(error instanceof Error){
+      setImagesError(error)
+     }
       console.log("ERR");
       console.log(error);
     }
@@ -57,11 +67,24 @@ const Gallery = ({
     }
   }, [searchText]);
 
+  const handleScroll = () => {
+    if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight || isLoading) {
+      return;
+    }
+    handleFetch();
+  };
+  
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isLoading]);
+
+
   const displayImages = () => {
     if (images && !isLoading) {
       return images.map((image, index) => (
         <Card
-          key={`${image.id}`}
+          key={`${image.id}-${image.imageURL}`}
           image={image}
           index={index}
           darkTheme={darkTheme}
@@ -81,7 +104,7 @@ const Gallery = ({
     }
     return Array.from(Array(30).keys()).map((item, index) => (
       <Skeleton
-        key={index}
+        key={`${item}`}
         isLoading={isLoading}
         className={classNames({
           "row-span-2 max-h-none h-[100%] min-h-full": [

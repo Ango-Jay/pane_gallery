@@ -50,7 +50,7 @@ const NewsLetter = ({ darkTheme }: { darkTheme: boolean }) => {
         Want to be updated when new awesome pics come out?
       </p>
       <p className="text-light">Sign up for our newsLetter.</p>
-      <form onSubmit={onSubmit} className="w-full flex flex-col items-center">
+      <form onSubmit={onSubmit} className="w-full flex flex-col sm:items-center">
         <div className="w-full my-4  rounded-full relative">
           <input
             onChange={(e) => {
@@ -68,7 +68,7 @@ const NewsLetter = ({ darkTheme }: { darkTheme: boolean }) => {
           )}
         </div>
         <button
-          className="flex justify-center items-center flex-shrink-0 min-w-[100px] bg-dark-blue text-sm text-white p-3 rounded-full shadow-sm btn-style"
+          className="flex justify-center items-center flex-shrink-0 sm:min-w-[100px] max-w-[100px] sm:max-w-none bg-dark-blue text-sm text-white p-3 rounded-full shadow-sm btn-style"
           type="submit"
         >
           {isLoading ? <Spinner className="text-light mr-2" /> : ""}
