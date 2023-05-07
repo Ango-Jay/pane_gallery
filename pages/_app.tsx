@@ -3,22 +3,9 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { motion, AnimatePresence } from "framer-motion";
 import ErrorBoundary from "@/components/ErrorBoundary";
-import { initializeApp } from 'firebase/app';
 
 
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBLAF3KO2cn-ai68-z6hQ7Vms7Wgn1DMdQ",
-  authDomain: "panegallery-7975c.firebaseapp.com",
-  projectId: "panegallery-7975c",
-  storageBucket: "panegallery-7975c.appspot.com",
-  messagingSenderId: "158047793157",
-  appId: "1:158047793157:web:d4576430989b398156ec6c",
-  measurementId: "G-CHV4E51P9J"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

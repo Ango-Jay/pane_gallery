@@ -3,6 +3,8 @@ import { Image } from "@/interfaces";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
 import type { Dispatch, SetStateAction } from "react";
+import {useSwipeable} from "react-swipeable"
+
 
 interface ImageModalProps {
   active: {
@@ -26,11 +28,15 @@ export const ImageViewer = ({
   images,
   setActive,
 }: ImageModalProps) => {
+  //  handle navigation on key press
   const leftKeyPress = useKeyPress("ArrowLeft");
   const rightKeyPress = useKeyPress("ArrowRight");
+
   const handleNext = () => {
     const nextImage = images.find((image, index) => active.index + 1 === index);
     if (active.index <= images.length - 1 && nextImage) {
+   
+      
       setActive({
         src: nextImage?.largeImageURL,
         id: `${nextImage?.id}`,
@@ -41,6 +47,8 @@ export const ImageViewer = ({
   const handlePrev = () => {
     const prevImage = images.find((image, index) => active.index - 1 === index);
     if (active.index >= 0 && prevImage) {
+   
+      
       setActive({
         src: prevImage?.largeImageURL,
         id: `${prevImage?.id}`,
@@ -57,24 +65,59 @@ export const ImageViewer = ({
       handleNext();
     }
   }, [leftKeyPress, rightKeyPress]);
-  const [imageTiles, setImageTiles] = useState([
-    active.index,
-    active.index + 1,
-    active.index + 2,
-    active.index + 3,
-    active.index + 4,
-    active.index + 5,
-  ]);
+  // change image on swipe
+  const handlers = useSwipeable({
+    onSwipedLeft: () => handleNext(),
+    onSwipedRight: () => handlePrev(),
+    swipeDuration: 500,
+    preventScrollOnSwipe: true,
+    trackMouse: true
+  });
+  const [imageTiles, setImageTiles] = useState<number[]>();
   useEffect(() => {
-    if ([6, 12, 18, 24, 30].includes(active.index)) {
-      setImageTiles([
-        active.index,
-        active.index + 1,
-        active.index + 2,
-        active.index + 3,
-        active.index + 4,
-        active.index + 5,
-      ]);
+
+    if (window.innerWidth <= 640 ) { 
+      if(active.index === 0){
+        setImageTiles(
+          [
+            active.index,
+            active.index + 1,
+            active.index + 2,
+          ]
+        )
+      }
+      if([3, 6, 9, 12, 15, 18, 21, 24, 27, 30].includes(active.index)){
+        setImageTiles([
+          active.index,
+          active.index + 1,
+          active.index + 2,
+        ]);
+      }
+    }
+    if (window.innerWidth > 640) {
+      if(active.index === 0){
+        setImageTiles(
+          [
+            active.index,
+            active.index + 1,
+            active.index + 2,
+            active.index + 3,
+            active.index + 4,
+            active.index + 5,
+          ]
+        )
+      }
+      if([6, 12, 18, 24, 30].includes(active.index)){
+        setImageTiles([
+          active.index,
+          active.index + 1,
+          active.index + 2,
+          active.index + 3,
+          active.index + 4,
+          active.index + 5,
+        ]);
+      }
+  
     }
   }, [active.index]);
   return (
@@ -82,9 +125,14 @@ export const ImageViewer = ({
       <div
         // onClick={closeModal}
         className="bg-black/50 backdrop-blur-[1px] w-full min-w-[100vw] pt-[5rem] pb-8 h-full min-h-[100vh] overflow-y-auto fixed top-0 left-0 flex flex-col z-[500]"
-      >
+        {...handlers}
+     >
         <div className="w-full h-full flex flex-col relative">
-          <div className="max-w-[90%] sm:max-w-[70%] md:max-w-[90%]  max-h-[50vh] h-[400px] sm:h-auto sm:max-h-[400px] m-auto relative z-[600]">
+          <div 
+        
+          className="max-w-[90%] sm:max-w-[70%] md:max-w-[90%]  max-h-[50vh] h-[400px] sm:h-auto sm:max-h-[400px] m-auto relative z-[600]"
+         
+        >
             <img
               src={active.src}
               alt={"test"}
@@ -109,8 +157,11 @@ export const ImageViewer = ({
               </svg>
             </button>
           </div>
-          <div className="mx-auto mt-auto grid grid-cols-6">
-            {images && images.length
+          <div
+           className="mx-auto mt-auto grid grid-cols-3 sm:grid-cols-6"
+         
+          >
+            {images && images.length && imageTiles
               ? images
                   .filter((image, index) => {
                     return imageTiles.includes(index);
