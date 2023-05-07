@@ -6,14 +6,9 @@ import { GetImages } from "@/lib/pixabay";
 import { Image } from "@/interfaces";
 import classnames from "classnames";
 
-
-
-
 interface HomePageProps {
   initialImages: Image[];
 }
-
-
 
 export default function Home({ initialImages }: HomePageProps) {
   const [darkTheme, setDarkTheme] = useState(false);
@@ -55,9 +50,9 @@ export async function getServerSideProps() {
     console.log(error);
     return {
       redirect: {
-          destination: '/',
-          statusCode: 307
-      }
-  }
+        destination: "/",
+        statusCode: 307,
+      },
+    };
   }
 }
