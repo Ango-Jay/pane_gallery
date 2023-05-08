@@ -70,8 +70,14 @@ export const ImageViewer = ({
     trackMouse: true,
   });
   const [imageTiles, setImageTiles] = useState<number[]>();
-  const desktopMultiples = useMemo(()=>getMultiples(6, 6, images.length), [images.length])
-  const phoneMultiples = useMemo(()=>getMultiples(3, 3, images.length), [images.length])
+  const desktopMultiples = useMemo(
+    () => getMultiples(6, 6, images.length),
+    [images.length]
+  );
+  const phoneMultiples = useMemo(
+    () => getMultiples(3, 3, images.length),
+    [images.length]
+  );
   useEffect(() => {
     if (window.innerWidth <= 640) {
       if (active.index === 0) {

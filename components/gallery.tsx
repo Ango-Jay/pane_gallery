@@ -10,7 +10,6 @@ import { ImageViewer } from "./imageviewer";
 import { useInView } from "react-intersection-observer";
 import { getMultiples } from "@/utils/getMultiples";
 
-
 interface GalleryProps {
   darkTheme: boolean;
   initialImages: Image[];
@@ -44,8 +43,8 @@ const Gallery = ({
   const { ref: observerTarget, inView } = useInView({
     threshold: 0,
     onChange: (inView) => {
-      if (inView && page <=3) {
-        handleFetch();   
+      if (inView && page <= 3) {
+        handleFetch();
       }
     },
   });
@@ -59,8 +58,8 @@ const Gallery = ({
         page: page,
       });
       setIsLoading(false);
-        setImages((prevItems) => [...prevItems, ...res.data?.hits]);
-        setPage((prevPage) => prevPage + 1);
+      setImages((prevItems) => [...prevItems, ...res.data?.hits]);
+      setPage((prevPage) => prevPage + 1);
     } catch (error) {
       setIsLoading(false);
       if (error instanceof Error) {
@@ -69,13 +68,13 @@ const Gallery = ({
       console.log("ERR");
       console.log(error);
     }
-  };
+  }
   async function handleSearch() {
     try {
       setIsLoading(true);
       setImagesError(null);
       const res = await axios.post("api/images", {
-        searchTerm: searchText
+        searchTerm: searchText,
       });
       setIsLoading(false);
       setImages(res.data?.hits);
@@ -87,14 +86,17 @@ const Gallery = ({
       console.log("ERR");
       console.log(error);
     }
-  };
+  }
   useEffect(() => {
     if (searchText) {
       handleSearch();
     }
   }, [searchText]);
 
-  const multiples = useMemo(()=>getMultiples(5, 1, images.length), [images.length])
+  const multiples = useMemo(
+    () => getMultiples(5, 1, images.length),
+    [images.length]
+  );
 
   const displayImages = () => {
     if (images && !isLoading) {
@@ -106,7 +108,8 @@ const Gallery = ({
           darkTheme={darkTheme}
           handleSelect={handleSelect}
           className={classNames({
-            "row-span-2 max-h-none h-[100%] min-h-full": multiples.includes(index),
+            "row-span-2 max-h-none h-[100%] min-h-full":
+              multiples.includes(index),
           })}
         />
       ));
@@ -116,7 +119,8 @@ const Gallery = ({
         key={`${item}`}
         isLoading={isLoading}
         className={classNames({
-          "row-span-2 max-h-none h-[100%] min-h-full": multiples.includes(index),
+          "row-span-2 max-h-none h-[100%] min-h-full":
+            multiples.includes(index),
         })}
       />
     ));
@@ -138,9 +142,12 @@ const Gallery = ({
       </div>
       <div ref={observerTarget} className="w-full h-4 flex justify-center">
         <button
-        className={classNames("text-dark-blue font-semibold hover:underline", {'hidden':page <= 3})}
-       onClick={handleFetch}
-       >
+          className={classNames(
+            "text-dark-blue font-semibold hover:underline",
+            { hidden: page <= 3 }
+          )}
+          onClick={handleFetch}
+        >
           View more
         </button>
       </div>
