@@ -9,7 +9,6 @@ import { Skeleton } from "./Loaders/Skeleton";
 import { ImageViewer } from "./imageviewer";
 import { useInView } from "react-intersection-observer";
 
-
 interface GalleryProps {
   darkTheme: boolean;
   initialImages: Image[];
@@ -22,7 +21,6 @@ const Gallery = ({
   showImageModal,
   setShowImageModal,
 }: GalleryProps) => {
-
   const [searchText, setSearchText] = useState("");
   const [images, setImages] = useState(initialImages);
   const [activeImage, setActiveImage] = useState<{
@@ -39,46 +37,50 @@ const Gallery = ({
     setShowImageModal(true);
   };
   const [isLoading, setIsLoading] = useState(false);
-  const [imagesError, setImagesError] = useState<Error | null>(null)
- const [page, setPage] = useState(1)
+  const [imagesError, setImagesError] = useState<Error | null>(null);
+  const [page, setPage] = useState(1);
   const handleFetch = async () => {
     try {
       setIsLoading(true);
-      setImagesError(null)
+      setImagesError(null);
       const res = await axios.post("api/images", {
         searchTerm: searchText,
-        page
+        page,
       });
       setIsLoading(false);
-      // setImages(res.data?.hits);
-
-      setImages(prevItems => [...prevItems, ...res.data?.hits]);
-      setPage(prevPage => prevPage + 1);
-
+if(page === 1){
+  setImages(res.data?.hits);
+}
+if(page > 1){
+  setImages((prevItems) => [...prevItems, ...res.data?.hits]);
+  setPage((prevPage) => prevPage + 1);
+}
+      
+     
     } catch (error) {
       setIsLoading(false);
-     if(error instanceof Error){
-      setImagesError(error)
-     }
+      if (error instanceof Error) {
+        setImagesError(error);
+      }
       console.log("ERR");
       console.log(error);
     }
   };
+
   useEffect(() => {
     if (searchText) {
       handleFetch();
     }
   }, [searchText]);
 
-  const {ref:observerTarget} = useInView({
-    threshold:0,
-    onChange:(inView)=>{
-if(inView){
-  handleFetch()
-}
-    }
-  })
-
+  const { ref: observerTarget } = useInView({
+    threshold: 0,
+    onChange: (inView) => {
+      if (inView) {
+        handleFetch();
+      }
+    },
+  });
 
   const displayImages = () => {
     if (images && !isLoading) {
@@ -134,12 +136,7 @@ if(inView){
           {displayImages()}
         </div>
       </div>
-      <div
-      ref={observerTarget}
-      className="w-full h-[1px]"
-      >
-
-      </div>
+      <div ref={observerTarget} className="w-full h-[1px]"></div>
       {showImageModal && activeImage ? (
         <ImageViewer
           active={activeImage}

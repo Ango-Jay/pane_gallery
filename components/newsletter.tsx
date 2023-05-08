@@ -50,7 +50,10 @@ const NewsLetter = ({ darkTheme }: { darkTheme: boolean }) => {
         Want to be updated when new awesome pics come out?
       </p>
       <p className="text-light">Sign up for our newsLetter.</p>
-      <form onSubmit={onSubmit} className="w-full flex flex-col sm:items-center">
+      <form
+        onSubmit={onSubmit}
+        className="w-full flex flex-col sm:items-center"
+      >
         <div className="w-full my-4  rounded-full relative">
           <input
             onChange={(e) => {
