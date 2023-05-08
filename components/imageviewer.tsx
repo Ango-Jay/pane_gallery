@@ -1,7 +1,8 @@
 import { useKeyPress } from "@/hooks/useKeyPress";
 import { Image } from "@/interfaces";
+import { getMultiples } from "@/utils/getMultiples";
 import classNames from "classnames";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import { useSwipeable } from "react-swipeable";
 
@@ -69,12 +70,14 @@ export const ImageViewer = ({
     trackMouse: true,
   });
   const [imageTiles, setImageTiles] = useState<number[]>();
+  const desktopMultiples = useMemo(()=>getMultiples(6, 6, images.length), [images.length])
+  const phoneMultiples = useMemo(()=>getMultiples(3, 3, images.length), [images.length])
   useEffect(() => {
     if (window.innerWidth <= 640) {
       if (active.index === 0) {
         setImageTiles([active.index, active.index + 1, active.index + 2]);
       }
-      if ([3, 6, 9, 12, 15, 18, 21, 24, 27, 30].includes(active.index)) {
+      if (phoneMultiples.includes(active.index)) {
         setImageTiles([active.index, active.index + 1, active.index + 2]);
       }
     }
@@ -89,7 +92,7 @@ export const ImageViewer = ({
           active.index + 5,
         ]);
       }
-      if ([6, 12, 18, 24, 30].includes(active.index)) {
+      if (desktopMultiples.includes(active.index)) {
         setImageTiles([
           active.index,
           active.index + 1,

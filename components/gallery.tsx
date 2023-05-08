@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import { Card } from "./imagecard";
 import { SearchBar } from "./searchbar";
@@ -8,6 +8,8 @@ import classNames from "classnames";
 import { Skeleton } from "./Loaders/Skeleton";
 import { ImageViewer } from "./imageviewer";
 import { useInView } from "react-intersection-observer";
+import { getMultiples } from "@/utils/getMultiples";
+
 
 interface GalleryProps {
   darkTheme: boolean;
@@ -38,23 +40,27 @@ const Gallery = ({
   };
   const [isLoading, setIsLoading] = useState(false);
   const [imagesError, setImagesError] = useState<Error | null>(null);
-  const [page, setPage] = useState(1);
-  const handleFetch = async () => {
+  const [page, setPage] = useState(2);
+  const { ref: observerTarget, inView } = useInView({
+    threshold: 0,
+    onChange: (inView) => {
+      if (inView && page <=3) {
+        handleFetch();   
+      }
+    },
+  });
+
+  async function handleFetch() {
     try {
       setIsLoading(true);
       setImagesError(null);
       const res = await axios.post("api/images", {
         searchTerm: searchText,
-        page,
+        page: page,
       });
       setIsLoading(false);
-      if (page === 1) {
-        setImages(res.data?.hits);
-      }
-      if (page > 1) {
         setImages((prevItems) => [...prevItems, ...res.data?.hits]);
         setPage((prevPage) => prevPage + 1);
-      }
     } catch (error) {
       setIsLoading(false);
       if (error instanceof Error) {
@@ -64,21 +70,31 @@ const Gallery = ({
       console.log(error);
     }
   };
-
+  async function handleSearch() {
+    try {
+      setIsLoading(true);
+      setImagesError(null);
+      const res = await axios.post("api/images", {
+        searchTerm: searchText
+      });
+      setIsLoading(false);
+      setImages(res.data?.hits);
+    } catch (error) {
+      setIsLoading(false);
+      if (error instanceof Error) {
+        setImagesError(error);
+      }
+      console.log("ERR");
+      console.log(error);
+    }
+  };
   useEffect(() => {
     if (searchText) {
-      handleFetch();
+      handleSearch();
     }
   }, [searchText]);
 
-  const { ref: observerTarget } = useInView({
-    threshold: 0,
-    onChange: (inView) => {
-      if (inView) {
-        handleFetch();
-      }
-    },
-  });
+  const multiples = useMemo(()=>getMultiples(5, 1, images.length), [images.length])
 
   const displayImages = () => {
     if (images && !isLoading) {
@@ -90,14 +106,7 @@ const Gallery = ({
           darkTheme={darkTheme}
           handleSelect={handleSelect}
           className={classNames({
-            "row-span-2 max-h-none h-[100%] min-h-full": [
-              "1",
-              "6",
-              "11",
-              "16",
-              "21",
-              "26",
-            ].includes(`${index}`),
+            "row-span-2 max-h-none h-[100%] min-h-full": multiples.includes(index),
           })}
         />
       ));
@@ -107,14 +116,7 @@ const Gallery = ({
         key={`${item}`}
         isLoading={isLoading}
         className={classNames({
-          "row-span-2 max-h-none h-[100%] min-h-full": [
-            "1",
-            "6",
-            "11",
-            "16",
-            "21",
-            "26",
-          ].includes(`${index}`),
+          "row-span-2 max-h-none h-[100%] min-h-full": multiples.includes(index),
         })}
       />
     ));
@@ -134,7 +136,14 @@ const Gallery = ({
           {displayImages()}
         </div>
       </div>
-      <div ref={observerTarget} className="w-full h-[1px]"></div>
+      <div ref={observerTarget} className="w-full h-4 flex justify-center">
+        <button
+        className={classNames("text-dark-blue font-semibold hover:underline", {'hidden':page <= 3})}
+       onClick={handleFetch}
+       >
+          View more
+        </button>
+      </div>
       {showImageModal && activeImage ? (
         <ImageViewer
           active={activeImage}
