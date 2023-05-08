@@ -7,6 +7,8 @@ import axios from "axios";
 import classNames from "classnames";
 import { Skeleton } from "./Loaders/Skeleton";
 import { ImageViewer } from "./imageviewer";
+import { useInView } from "react-intersection-observer";
+
 
 interface GalleryProps {
   darkTheme: boolean;
@@ -20,6 +22,7 @@ const Gallery = ({
   showImageModal,
   setShowImageModal,
 }: GalleryProps) => {
+
   const [searchText, setSearchText] = useState("");
   const [images, setImages] = useState(initialImages);
   const [activeImage, setActiveImage] = useState<{
@@ -67,24 +70,21 @@ const Gallery = ({
     }
   }, [searchText]);
 
-  const handleScroll = () => {
-    if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight || isLoading) {
-      return;
+  const {ref:observerTarget} = useInView({
+    threshold:0,
+    onChange:(inView)=>{
+if(inView){
+  handleFetch()
+}
     }
-    handleFetch();
-  };
-  
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [isLoading]);
+  })
 
 
   const displayImages = () => {
     if (images && !isLoading) {
       return images.map((image, index) => (
         <Card
-          key={`${image.id}-${image.imageURL}`}
+          key={`${image.id}-${image.previewURL}`}
           image={image}
           index={index}
           darkTheme={darkTheme}
@@ -133,6 +133,12 @@ const Gallery = ({
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-1  pb-8 mt-[3rem]">
           {displayImages()}
         </div>
+      </div>
+      <div
+      ref={observerTarget}
+      className="w-full h-[1px]"
+      >
+
       </div>
       {showImageModal && activeImage ? (
         <ImageViewer
