@@ -48,15 +48,13 @@ const Gallery = ({
         page,
       });
       setIsLoading(false);
-if(page === 1){
-  setImages(res.data?.hits);
-}
-if(page > 1){
-  setImages((prevItems) => [...prevItems, ...res.data?.hits]);
-  setPage((prevPage) => prevPage + 1);
-}
-      
-     
+      if (page === 1) {
+        setImages(res.data?.hits);
+      }
+      if (page > 1) {
+        setImages((prevItems) => [...prevItems, ...res.data?.hits]);
+        setPage((prevPage) => prevPage + 1);
+      }
     } catch (error) {
       setIsLoading(false);
       if (error instanceof Error) {
